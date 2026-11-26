@@ -16,19 +16,26 @@ Ghi **trước** khi chạy `scripts/pp_sweep.py`, rồi commit và push ngay (l
 
 | Cấu hình | Xóa | Thêm | Sửa | Chi phí |
 |---|---:|---:|---:|---:|
-| Gốc | | | | |
-| `best_config.json` | | | | |
+| Gốc |47 | 11| 2|23.1 |
+| `best_config.json` |22 |11 | 2|18.6 |
 
-- Tham số đã đổi trong `best_config.json`: ...
-- Kết quả leave-one-out (dán các dòng `scripts/pp_sweep.py` in ra): ...
-- Cấu hình có ổn định trên từng frame không? Vì sao tôi vẫn chọn (hoặc không chọn) nó: ...
+- Tham số đã đổi trong `best_config.json`: `score_thr`: '0.4'
+- Kết quả leave-one-out (dán các dòng `scripts/pp_sweep.py` in ra): 
+Leave-one-out (chọn trên các frame còn lại, chấm trên frame bỏ ra):
+  s01f24: cấu hình chọn {'score_thr': '0.5', 'min_points': '0'} → 12.7 (tốt nhất có thể 11.3)
+  s02f18: cấu hình chọn {'score_thr': '0.5', 'min_points': '0'} → 4.7 (tốt nhất có thể 3.3)
+  s05f31: cấu hình chọn {'score_thr': '0.4', 'min_points': '0'} → 4.0 (tốt nhất có thể 2.2)
+
+- Cấu hình có ổn định trên từng frame không? Có
+Vì sao tôi vẫn chọn: Cấu hình cho thấy có thể giảm đáng kể số lượng box thừa bằng cách tăng ngưỡng điểm tin cậy chung, mặc dù vẫn có một số box thừa ở các frame khác nhau. Việc chọn `score_thr` là '0.4' giúp cân bằng giữa việc giảm box thừa và giảm box sót.
 
 ## 3. Trước/sau (bước 8)
 
-![so sánh](../../d14_<ID>/compare/<frame>.jpg)
+![so sánh](K5-L23-Day14-HuynhNhatQuang-2A202603113-PointPillars-Prelabel/d14_113/compare/s01f24.jpg)
 
-- `scripts/pp_compare.py` báo giảm (hoặc tăng) ...% công sửa trên tập A.
-- Dự đoán ở mục 1 đúng hay sai? Giải thích bằng số box xóa/thêm/sửa: ...
+- `scripts/pp_compare.py` báo giảm 19% công sửa trên tập A.
+- Dự đoán ở mục 1 đúng hay sai? Đúng
+Giải thích bằng số box xóa/thêm/sửa:  Ở cấu hình số box xóa 12 thêm 9 sửa 1 so với cấu hình mới này số box xóa 6 thêm 9 sửa 1. Số box thừa cần xóa đã giảm đi một nữa cho thấy model đã loại bỏ các box có score thấp qua đó rút ngắn công sửa và chi phí hơn so với cấu hình đầu.
 
 ## 4. Tập B
 
