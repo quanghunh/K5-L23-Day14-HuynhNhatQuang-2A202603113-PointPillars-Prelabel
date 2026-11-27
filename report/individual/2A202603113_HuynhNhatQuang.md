@@ -39,14 +39,19 @@ Giải thích bằng số box xóa/thêm/sửa:  Ở cấu hình số box xóa 1
 
 ## 4. Tập B
 
-Số đo từ `scripts/pp_prelabel.py --frames d14_<ID>/frames_B.txt --config d14_<ID>/best_config.json --gt d14_<ID>/ref_B.json`:
+Số đo từ `scripts/pp_prelabel.py --frames d14_113/frames_B.txt --config d14_113/best_config.json --gt d14_113/ref_B.json`:
 
 | Xóa | Thêm | Sửa | Chi phí |
 |---:|---:|---:|---:|
-| | | | |
+|90 |34 |8 |65 |
 
-- Loại box tốn công sửa nhất ở tập B: ...
+- Loại box tốn công sửa nhất ở tập B: car
 
 ## 5. Giới hạn
 
-- Nêu ít nhất 2 giới hạn (ví dụ: chỉ 3 frame tune; model KITTI không có Truck/Bus; chi phí là công thức, chưa phải thời gian sửa thật): ...
+- Độ ổn định của cấu hình khi tinh chỉnh trên tập mẫu nhỏ: Bộ tham số tối ưu hiện tại chưa đảm bảo tính khái quát đồng đều trên các khung hình phức tạp. Bằng chứng: Cấu hình chỉ được chọn từ 3 frame (tập A) với chênh lệch leave-one-out lần lượt là 1.4, 1.4 và 1.8; khi chạy trên 12 frame của tập B (tổng chi phí 65.0 gồm 90 xóa, 34 thêm, 8 sửa), sai số tăng đột biến ở các frame đông vật thể như s03f21 (chi phí 14.3 với 11 xóa, 11 thêm).
+
+
+- Độ lệch miền phân bố lớp (KITTI) và thước đo chi phí quy ước: Mô hình gặp hạn chế về độ phủ lớp vật thể theo chuẩn KITTI và hàm chi phí chưa phản ánh thời gian hậu kiểm thực tế. Bằng chứng: Toàn bộ 12 frame tập B bỏ sót 34 vật thể (chiếm ~52% tổng chi phí), dự đoán chỉ có Car, Cyclist, Pedestrian (0–2 box/frame) mà không có Truck hay Bus, trong khi thao tác sửa chỉ xuất hiện 8 lần và chưa có số đo thời gian xử lý.
+
+
